@@ -1,4 +1,5 @@
 using CourseGame_1.Inputs;
+using CourseGame_1.Movements;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,17 +8,15 @@ namespace CouseGame_1.Controllers
 {
     public class PlayerController : MonoBehaviour
     {
-        [SerializeField] float _force;
-
-        Rigidbody _rb;
         DefaultInput _input;
+        Mover _mover;
 
         bool _isForceUp;
 
         private void Awake()
         {   
-            _rb = GetComponent<Rigidbody>();
             _input = new DefaultInput();
+            _mover = new Mover(GetComponent<Rigidbody>());
         }
 
         private void Update()
@@ -34,10 +33,7 @@ namespace CouseGame_1.Controllers
 
         private void FixedUpdate()
         {
-            if (_isForceUp)
-            {
-                _rb.AddForce(Vector3.up * Time.deltaTime * _force);
-            }
+            _mover.FixedTick(_isForceUp);
         }
     }
 }
